@@ -54,7 +54,7 @@ RUN cd /tmp && \
     make all && \
     make install && \
     cd .. && \
-    rm -rf git-2.43.0 v2.43.0.tar.gz && \
+    rm -rf git-2.43.0/ v2.43.0.tar.gz && \
     git config --global gpg.format ssh && \
     git config --global user.signingkey /root/.ssh/id_ed25519.pub && \
     git config --global commit.gpgsign true && \

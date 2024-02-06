@@ -1,5 +1,14 @@
 ## Andriod Studio 実行用
 
+- fonts  
+  Android Studio で利用するフォント等いれておく
+- keys  
+  ssh 用の鍵
+- resources  
+  日本語化プラグインなど、使用したいファイルを入れておく
+
+<br/>
+
 - イメージビルド
 
 ```
