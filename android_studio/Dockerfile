@@ -7,6 +7,7 @@ ENV DISPLAY host.docker.internal:0.0
 
 RUN dpkg --add-architecture i386 \
     && apt-get update -y \
+    && apt-get install -y --no-install-recommends tzdata \
     && apt-get install -y \
         build-essential \
         lib32z1 \
@@ -29,12 +30,15 @@ RUN dpkg --add-architecture i386 \
         openssh-server \
         zlib1g-dev \
         autoconf \
+        openjdk-11-jdk \
+    && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
     && cd /opt \
     && wmname LG3D \
     && wget "https://redirector.gvt1.com/edgedl/android/studio/ide-zips/${ANDROIDSTUDIO_VERSION}/android-studio-${ANDROIDSTUDIO_VERSION}-linux.tar.gz" \
     && tar -zxvf "android-studio-${ANDROIDSTUDIO_VERSION}-linux.tar.gz" \
     && rm -f "android-studio-${ANDROIDSTUDIO_VERSION}-linux.tar.gz" \
     && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/* \
     && echo end
 
 
@@ -94,7 +98,9 @@ RUN echo "" >> ~/.bashrc \
     && echo "GIT_PS1_SHOWUNTRACKEDFILES=true" >> ~/.bashrc \
     && echo "GIT_PS1_SHOWSTASHSTATE=true" >> ~/.bashrc \
     && echo "GIT_PS1_SHOWUPSTREAM=auto" >> ~/.bashrc \
-    && printf "PS1='[\\\\[\\\\033[32m\\\\]\\\\u@\\\\h\\\\[\\\\033[00m\\\\] \\\\[\\\\033[33m\\\\]\\\\w\\\\[\\\\033[1;36m\\\\]\$(__git_ps1 \" (%s)\")\\\\[\\\\033[00m\\\\]]\\\\n\\\\$ '\n" "%s" >> ~/.bashrc
+    && printf "PS1='[\\\\[\\\\033[32m\\\\]\\\\u@\\\\h\\\\[\\\\033[00m\\\\] \\\\[\\\\033[33m\\\\]\\\\w\\\\[\\\\033[1;36m\\\\]\$(__git_ps1 \" (%s)\")\\\\[\\\\033[00m\\\\]]\\\\n\\\\$ '\n" "%s" >> ~/.bashrc \
+    && echo 'export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"' >> ~/.bashrc \
+    && echo 'export TZ="Asia/Tokyo"' >> ~/.bashrc
 
 COPY ./fonts/* /usr/share/fonts/truetype/
 COPY ./resources/* init.sh /tmp/
