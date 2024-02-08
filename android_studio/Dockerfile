@@ -41,7 +41,6 @@ RUN dpkg --add-architecture i386 \
     && rm -rf /var/lib/apt/lists/* \
     && echo end
 
-
 # SSH公開鍵認証の設定
 COPY ./keys/* /root/.ssh/
 RUN chmod 0700 /root/.ssh && \
@@ -99,6 +98,7 @@ RUN echo "" >> ~/.bashrc \
     && echo "GIT_PS1_SHOWSTASHSTATE=true" >> ~/.bashrc \
     && echo "GIT_PS1_SHOWUPSTREAM=auto" >> ~/.bashrc \
     && printf "PS1='[\\\\[\\\\033[32m\\\\]\\\\u@\\\\h\\\\[\\\\033[00m\\\\] \\\\[\\\\033[33m\\\\]\\\\w\\\\[\\\\033[1;36m\\\\]\$(__git_ps1 \" (%s)\")\\\\[\\\\033[00m\\\\]]\\\\n\\\\$ '\n" "%s" >> ~/.bashrc \
+    && echo 'export PATH=$PATH:/root/Android/Sdk/platform-tools' >> ~/.bashrc \
     && echo 'export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"' >> ~/.bashrc \
     && echo 'export TZ="Asia/Tokyo"' >> ~/.bashrc
 
