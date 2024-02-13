@@ -30,7 +30,7 @@ RUN dpkg --add-architecture i386 \
         openssh-server \
         zlib1g-dev \
         autoconf \
-        openjdk-11-jdk \
+        openjdk-17-jdk \
     && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
     && cd /opt \
     && wmname LG3D \
@@ -99,7 +99,7 @@ RUN echo "" >> ~/.bashrc \
     && echo "GIT_PS1_SHOWUPSTREAM=auto" >> ~/.bashrc \
     && printf "PS1='[\\\\[\\\\033[32m\\\\]\\\\u@\\\\h\\\\[\\\\033[00m\\\\] \\\\[\\\\033[33m\\\\]\\\\w\\\\[\\\\033[1;36m\\\\]\$(__git_ps1 \" (%s)\")\\\\[\\\\033[00m\\\\]]\\\\n\\\\$ '\n" "%s" >> ~/.bashrc \
     && echo 'export PATH=$PATH:/root/Android/Sdk/platform-tools' >> ~/.bashrc \
-    && echo 'export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"' >> ~/.bashrc \
+    && echo 'export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64/"' >> ~/.bashrc \
     && echo 'export TZ="Asia/Tokyo"' >> ~/.bashrc
 
 COPY ./fonts/* /usr/share/fonts/truetype/
