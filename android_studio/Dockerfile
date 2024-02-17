@@ -2,6 +2,7 @@ FROM ubuntu:22.04
 WORKDIR /tmp/
 
 ARG ANDROIDSTUDIO_VERSION=2023.1.1.28
+ARG GIT_VERSION=2.43.2
 
 ENV DISPLAY host.docker.internal:0.0
 
@@ -30,7 +31,6 @@ RUN dpkg --add-architecture i386 \
         openssh-server \
         zlib1g-dev \
         autoconf \
-        openjdk-17-jdk \
     && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
     && cd /opt \
     && wmname LG3D \
@@ -49,15 +49,15 @@ RUN chmod 0700 /root/.ssh && \
 
 # 最新ソースから Git をビルド・インストール
 RUN cd /tmp && \
-    curl -o v2.43.0.tar.gz -L https://github.com/git/git/archive/refs/tags/v2.43.0.tar.gz && \
-    tar -zxvf v2.43.0.tar.gz && \
-    cd git-2.43.0 && \
+    curl -o v${GIT_VERSION}.tar.gz -L https://github.com/git/git/archive/refs/tags/v${GIT_VERSION}.tar.gz && \
+    tar -zxvf v${GIT_VERSION}.tar.gz && \
+    cd git-${GIT_VERSION} && \
     make configure && \
     ./configure --prefix=/usr && \
     make all && \
     make install && \
     cd .. && \
-    rm -rf git-2.43.0/ v2.43.0.tar.gz && \
+    rm -rf git-${GIT_VERSION}/ v${GIT_VERSION}.tar.gz && \
     git config --global gpg.format ssh && \
     git config --global user.signingkey /root/.ssh/id_ed25519.pub && \
     git config --global commit.gpgsign true && \
@@ -99,7 +99,7 @@ RUN echo "" >> ~/.bashrc \
     && echo "GIT_PS1_SHOWUPSTREAM=auto" >> ~/.bashrc \
     && printf "PS1='[\\\\[\\\\033[32m\\\\]\\\\u@\\\\h\\\\[\\\\033[00m\\\\] \\\\[\\\\033[33m\\\\]\\\\w\\\\[\\\\033[1;36m\\\\]\$(__git_ps1 \" (%s)\")\\\\[\\\\033[00m\\\\]]\\\\n\\\\$ '\n" "%s" >> ~/.bashrc \
     && echo 'export PATH=$PATH:/root/Android/Sdk/platform-tools' >> ~/.bashrc \
-    && echo 'export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64/"' >> ~/.bashrc \
+    && echo 'export JAVA_HOME="/opt/android-studio/jbr/"' >> ~/.bashrc \
     && echo 'export TZ="Asia/Tokyo"' >> ~/.bashrc
 
 COPY ./fonts/* /usr/share/fonts/truetype/
